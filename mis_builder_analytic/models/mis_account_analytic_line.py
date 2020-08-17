@@ -2,7 +2,7 @@
 # Copyright 2018 Tecnativa - Ernesto Tejeda
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models, tools
+from openerp import api, fields, models, tools
 
 
 class MisAccountAnalyticLine(models.Model):
@@ -25,10 +25,9 @@ class MisAccountAnalyticLine(models.Model):
         [("draft", "Unposted"), ("posted", "Posted")], string="Status"
     )
 
-    @api.model_cr
-    def init(self):
-        tools.drop_view_if_exists(self._cr, "mis_account_analytic_line")
-        self._cr.execute(
+    def init(self, cr):
+        tools.drop_view_if_exists(cr, "mis_account_analytic_line")
+        cr.execute(
             """
             CREATE OR REPLACE VIEW mis_account_analytic_line AS (
                 SELECT
